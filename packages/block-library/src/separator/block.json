@@ -12,6 +12,9 @@
 		},
 		"customColor": {
 			"type": "string"
+		},
+		"style": {
+			"type": "object"
 		}
 	},
 	"supports": {
