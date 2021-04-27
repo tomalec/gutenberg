@@ -6,7 +6,7 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
+import { useState, useEffect, Platform } from '@wordpress/element';
 import {
 	InnerBlocks,
 	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
@@ -17,6 +17,7 @@ import {
 	store as blockEditorStore,
 	withColors,
 	PanelColorSettings,
+	ContrastChecker,
 } from '@wordpress/block-editor';
 import { useDispatch, withSelect, withDispatch } from '@wordpress/data';
 import { PanelBody, ToggleControl, ToolbarGroup } from '@wordpress/components';
@@ -46,6 +47,38 @@ const LAYOUT = {
 	alignments: [],
 };
 
+function getBlockDOMNode( clientId, doc ) {
+	return doc.getElementById( 'block-' + clientId );
+}
+
+function getComputedStyle( node ) {
+	return node.ownerDocument.defaultView.getComputedStyle( node );
+}
+
+function detectColors( clientId, setColor, setBackground ) {
+	const colorsDetectionElement = getBlockDOMNode( clientId, document );
+	if ( ! colorsDetectionElement ) {
+		return;
+	}
+	setColor( getComputedStyle( colorsDetectionElement ).color );
+
+	let backgroundColorNode = colorsDetectionElement;
+	let backgroundColor = getComputedStyle( backgroundColorNode )
+		.backgroundColor;
+	while (
+		backgroundColor === 'rgba(0, 0, 0, 0)' &&
+		backgroundColorNode.parentNode &&
+		backgroundColorNode.parentNode.nodeType ===
+			backgroundColorNode.parentNode.ELEMENT_NODE
+	) {
+		backgroundColorNode = backgroundColorNode.parentNode;
+		backgroundColor = getComputedStyle( backgroundColorNode )
+			.backgroundColor;
+	}
+
+	setBackground( backgroundColor );
+}
+
 function Navigation( {
 	selectedBlockHasDescendants,
 	attributes,
@@ -64,6 +97,7 @@ function Navigation( {
 	setOverlayBackgroundColor,
 	overlayTextColor,
 	setOverlayTextColor,
+	subMenuClientId,
 	hasSubmenuIndicatorSetting = true,
 	hasItemJustificationControls = true,
 } ) {
@@ -123,6 +157,31 @@ function Navigation( {
 			placeholder: <PlaceholderPreview />,
 		}
 	);
+
+	// Turn on contrast checker for web only since it's not supported on mobile yet.
+	const enableContrastChecking = Platform.OS === 'web';
+
+	const [ detectedBackgroundColor, setDetectedBackgroundColor ] = useState();
+	const [ detectedColor, setDetectedColor ] = useState();
+	const [
+		detectedOverlayBackgroundColor,
+		setDetectedOverlayBackgroundColor,
+	] = useState();
+	const [ detectedOverlayColor, setDetectedOverlayColor ] = useState();
+
+	useEffect( () => {
+		if ( ! enableContrastChecking ) {
+			return;
+		}
+		detectColors( clientId, setDetectedColor, setDetectedBackgroundColor );
+		if ( subMenuClientId ) {
+			detectColors(
+				subMenuClientId,
+				setDetectedOverlayColor,
+				setDetectedOverlayBackgroundColor
+			);
+		}
+	} );
 
 	if ( isPlaceholderShown ) {
 		return (
@@ -189,6 +248,7 @@ function Navigation( {
 				) }
 				<PanelColorSettings
 					title={ __( 'Color' ) }
+					initialOpen={ false }
 					colorSettings={ [
 						{
 							value: textColor.color,
@@ -211,7 +271,22 @@ function Navigation( {
 							label: __( 'Overlay background' ),
 						},
 					] }
-				/>
+				>
+					{ enableContrastChecking && (
+						<>
+							<ContrastChecker
+								backgroundColor={ detectedBackgroundColor }
+								textColor={ detectedColor }
+							/>
+							<ContrastChecker
+								backgroundColor={
+									detectedOverlayBackgroundColor
+								}
+								textColor={ detectedOverlayColor }
+							/>
+						</>
+					) }
+				</PanelColorSettings>
 			</InspectorControls>
 			<nav { ...blockProps }>
 				<ResponsiveWrapper
@@ -243,9 +318,14 @@ export default compose( [
 		const selectedBlockHasDescendants = !! getClientIdsOfDescendants( [
 			selectedBlockId,
 		] )?.length;
+
+		const subMenuClientId = innerBlocks.find(
+			( b ) => b.innerBlocks.length
+		)?.innerBlocks[ 0 ]?.clientId;
 		return {
 			isImmediateParentOfSelectedBlock,
 			selectedBlockHasDescendants,
+			subMenuClientId,
 			hasExistingNavItems: !! innerBlocks.length,
 		};
 	} ),
