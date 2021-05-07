@@ -17,7 +17,6 @@ import { withColors, useBlockProps } from '@wordpress/block-editor';
  * Internal dependencies
  */
 import SeparatorSettings from './separator-settings';
-import { MARGIN_CONSTRAINTS, parseUnit } from './shared';
 
 const { __Visualizer: BoxControlVisualizer } = BoxControl;
 
@@ -28,7 +27,6 @@ function SeparatorEdit( props ) {
 	} = props;
 
 	const { top, bottom } = style?.spacing?.margin || {};
-	const marginUnit = parseUnit( top || bottom );
 	const blockProps = useBlockProps();
 
 	return (
@@ -53,9 +51,8 @@ function SeparatorEdit( props ) {
 					style={ {
 						backgroundColor: color.color,
 						color: color.color,
-						marginTop: top || MARGIN_CONSTRAINTS[ marginUnit ].min,
-						marginBottom:
-							bottom || MARGIN_CONSTRAINTS[ marginUnit ].min,
+						marginTop: top,
+						marginBottom: bottom,
 					} }
 				/>
 			</View>
