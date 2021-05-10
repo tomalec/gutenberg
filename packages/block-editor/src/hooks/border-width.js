@@ -26,7 +26,7 @@ export const BorderWidthEdit = ( props ) => {
 	} = props;
 
 	// Step value is maintained in state so step is appropriate for current unit
-	// even when current radius value is undefined.
+	// even when current width value is undefined.
 	const initialStep = parseUnit( style?.border?.width ) === 'px' ? 1 : 0.25;
 	const [ step, setStep ] = useState( initialStep );
 
