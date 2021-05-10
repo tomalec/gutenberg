@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
- import {
+import {
 	capitalize,
 	get,
 	kebabCase,
