@@ -58,7 +58,7 @@ function blockToWidget( block, existingWidget = null ) {
 	};
 }
 
-function widgetToBlock( { id, idBase, number, instance } ) {
+function widgetToBlock( { id, idBase, number, instance, isWide } ) {
 	let block;
 
 	const {
@@ -83,6 +83,7 @@ function widgetToBlock( { id, idBase, number, instance } ) {
 				raw,
 				...rest,
 			},
+			isWide,
 		} );
 	} else {
 		// Widget that does not extend WP_Widget.
