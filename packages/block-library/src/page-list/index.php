@@ -14,9 +14,9 @@
  */
 function block_core_page_list_build_css_colors( $context ) {
 	$colors = array(
-		'css_classes'   => array(),
-		'inline_styles' => '',
-		'overlay_css_classes' => array(),
+		'css_classes'           => array(),
+		'inline_styles'         => '',
+		'overlay_css_classes'   => array(),
 		'overlay_inline_styles' => '',
 	);
 
@@ -62,7 +62,7 @@ function block_core_page_list_build_css_colors( $context ) {
 		$colors['inline_styles'] .= sprintf( 'background-color: %s;', $context['style']['color']['background'] );
 	}
 
-	// Overlay text color
+	// Overlay text color.
 	$has_named_overlay_text_color  = array_key_exists( 'overlayTextColor', $context );
 	$has_picked_overlay_text_color = array_key_exists( 'customOverlayTextColor', $context );
 
@@ -71,14 +71,14 @@ function block_core_page_list_build_css_colors( $context ) {
 		$colors['overlay_css_classes'][] = 'has-text-color';
 	}
 
-	// Give overlay colors priority, fall back to Navigation block colors, then global styles
+	// Give overlay colors priority, fall back to Navigation block colors, then global styles.
 	if ( $has_named_overlay_text_color ) {
 		$colors['overlay_css_classes'][] = sprintf( 'has-%s-color', $context['overlayTextColor'] );
 	} elseif ( $has_picked_overlay_text_color ) {
 		$colors['overlay_inline_styles'] .= sprintf( 'color: %s;', $context['customOverlayTextColor'] );
 	}
 
-	// Overlay background colors
+	// Overlay background colors.
 	$has_named_overlay_background_color  = array_key_exists( 'overlayBackgroundColor', $context );
 	$has_picked_overlay_background_color = array_key_exists( 'customOverlayBackgroundColor', $context );
 
@@ -127,9 +127,9 @@ function block_core_page_list_build_css_font_sizes( $context ) {
 /**
  * Outputs Page list markup from an array of pages with nested children.
  *
- * @param array $nested_pages The array of nested pages.
- * @param array $colors Color information for overlay styles
- * @param integer $depth The nesting depth
+ * @param array   $nested_pages The array of nested pages.
+ * @param array   $colors Color information for overlay styles.
+ * @param integer $depth  The nesting depth.
  *
  * @return string List markup.
  */
@@ -139,17 +139,17 @@ function render_nested_page_list( $nested_pages, $colors, $depth = 0 ) {
 	}
 	$markup = '';
 	foreach ( (array) $nested_pages as $page ) {
-		$css_class = 'wp-block-pages-list__item';
+		$css_class       = 'wp-block-pages-list__item';
 		$style_attribute = '';
 		if ( isset( $page['children'] ) ) {
 			$css_class .= ' has-child';
 		}
 
-		// If this is the first level of submenus, include the overlay colors
+		// If this is the first level of submenus, include the overlay colors.
 		if ( 1 === $depth ) {
 			$css_class .= ' ' . trim( implode( ' ', $colors['overlay_css_classes'] ) );
-			if ( $colors['overlay_inline_styles'] !== '' ) {
-				$style_attribute = sprintf( ' style="%s"', esc_attr($colors['overlay_inline_styles']));
+			if ( '' !== $colors['overlay_inline_styles'] ) {
+				$style_attribute = sprintf( ' style="%s"', esc_attr( $colors['overlay_inline_styles'] ) );
 			}
 		}
 
