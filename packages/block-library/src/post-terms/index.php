@@ -26,9 +26,9 @@ function render_block_core_post_terms( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$classes = 'taxonomy-' . $attributes['term'];
+	$classes = "taxonomy-{$attributes['term']}";
 	if ( isset( $attributes['textAlign'] ) ) {
-		$classes .= ' has-text-align-' . $attributes['textAlign'];
+		$classes .= " has-text-align-{$attributes['textAlign']}";
 	}
 
 	$terms_links = '';
