@@ -23,6 +23,7 @@
 		"src/flex/**/*",
 		"src/form-group/**/*",
 		"src/scroll-lock/**/*",
+		"src/segmented-control/**/*",
 		"src/shortcut/**/*",
 		"src/spinner/**/*",
 		"src/spacer/**/*",
