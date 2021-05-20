@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { Button, Dropdown } from '@wordpress/components';
+import { chevronDown } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -66,6 +67,7 @@ function TemplateTitle() {
 					<Button
 						className="edit-post-template-title"
 						isLink
+						icon={ chevronDown }
 						showTooltip
 						onClick={ onToggle }
 						label={ __( 'Template Options' ) }

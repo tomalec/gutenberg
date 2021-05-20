@@ -15,10 +15,21 @@
 	.edit-post-template-post-title {
 		padding: 0;
 		text-decoration: none;
+
+		&.has-icon {
+			svg {
+				order: 1;
+				margin-right: 0;
+			}
+		}
+	}
+
+	.edit-post-template-title {
+		color: $gray-900;
 	}
 
 	.edit-post-template-post-title {
-		margin-bottom: $grid-unit-05;
+		margin-top: $grid-unit-05;
 	}
 }
 
