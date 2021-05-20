@@ -17,9 +17,7 @@ function TemplateTitle() {
 		const { isEditingTemplate, getEditedPostTemplate } = select(
 			editPostStore
 		);
-		const {
-			getEditedPostAttribute,
-		} = select( 'core/editor' );
+		const { getEditedPostAttribute } = select( 'core/editor' );
 
 		const _isEditing = isEditingTemplate();
 
@@ -48,9 +46,7 @@ function TemplateTitle() {
 			contentClassName="edit-post-template-top-area__popover"
 			renderToggle={ ( { onToggle } ) => (
 				<>
-					<div className="edit-post-template-title">
-						{ title }
-					</div>
+					<div className="edit-post-template-title">{ title }</div>
 					<Button
 						isSmall
 						isTertiary
