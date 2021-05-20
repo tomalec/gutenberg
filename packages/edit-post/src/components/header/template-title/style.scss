@@ -13,17 +13,8 @@
 
 	.edit-post-template-title,
 	.edit-post-template-post-title {
-		//height: 16px;
 		padding: 0;
 		text-decoration: none;
-
-		&.has-icon {
-			svg {
-				height: 16px;
-				width: 16px;
-				margin-right: $grid-unit-05;
-			}
-		}
 	}
 
 	.edit-post-template-post-title {

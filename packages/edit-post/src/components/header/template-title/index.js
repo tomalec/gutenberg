@@ -4,7 +4,6 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { Button, Dropdown } from '@wordpress/components';
-import { page, layout } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -55,7 +54,6 @@ function TemplateTitle() {
 						className="edit-post-template-post-title"
 						isLink
 						showTooltip
-						icon={ page }
 						label={ __( 'Edit ' ) + title }
 						aria-label={ __( 'Edit ' ) + title }
 						onClick={ () => {
@@ -69,7 +67,6 @@ function TemplateTitle() {
 						className="edit-post-template-title"
 						isLink
 						showTooltip
-						icon={ layout }
 						onClick={ onToggle }
 						label={ __( 'Template Options' ) }
 						aria-label={ __( 'Template Options' ) }
