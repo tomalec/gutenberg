@@ -9,9 +9,7 @@ import { Button, Dropdown } from '@wordpress/components';
  * Internal dependencies
  */
 import { store as editPostStore } from '../../../store';
-import {
-	store as blockEditorStore,
-} from '@wordpress/block-editor';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 import DeleteTemplate from './delete-template';
 import EditTemplateTitle from './edit-template-title';
 
