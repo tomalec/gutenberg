@@ -2,13 +2,16 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { Button, Dropdown } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import { store as editPostStore } from '../../../store';
+import {
+	store as blockEditorStore,
+} from '@wordpress/block-editor';
 import DeleteTemplate from './delete-template';
 import EditTemplateTitle from './edit-template-title';
 
@@ -28,6 +31,9 @@ function TemplateTitle() {
 		};
 	}, [] );
 
+	const { clearSelectedBlock } = useDispatch( blockEditorStore );
+	const { setIsEditingTemplate } = useDispatch( editPostStore );
+
 	if ( ! isEditing || ! template ) {
 		return null;
 	}
@@ -46,7 +52,18 @@ function TemplateTitle() {
 			contentClassName="edit-post-template-top-area__popover"
 			renderToggle={ ( { onToggle } ) => (
 				<>
-					<div className="edit-post-template-title">{ title }</div>
+					<Button
+						className="edit-post-template-title"
+						isSmall
+						isTertiary
+						aria-label={ __( 'Return to post' ) }
+						onClick={ () => {
+							clearSelectedBlock();
+							setIsEditingTemplate( false );
+						} }
+					>
+						{ title }
+					</Button>
 					<Button
 						isSmall
 						isTertiary
