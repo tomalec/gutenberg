@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { Button, Dropdown } from '@wordpress/components';
+import { page, layout } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -51,10 +52,12 @@ function TemplateTitle() {
 			renderToggle={ ( { onToggle } ) => (
 				<>
 					<Button
-						className="edit-post-template-title"
-						isSmall
-						isTertiary
-						aria-label={ __( 'Return to post' ) }
+						className="edit-post-template-post-title"
+						isLink
+						showTooltip
+						icon={ page }
+						label={ __( 'Edit ' ) + title }
+						aria-label={ __( 'Edit ' ) + title }
 						onClick={ () => {
 							clearSelectedBlock();
 							setIsEditingTemplate( false );
@@ -63,9 +66,12 @@ function TemplateTitle() {
 						{ title }
 					</Button>
 					<Button
-						isSmall
-						isTertiary
+						className="edit-post-template-title"
+						isLink
+						showTooltip
+						icon={ layout }
 						onClick={ onToggle }
+						label={ __( 'Template Options' ) }
 						aria-label={ __( 'Template Options' ) }
 					>
 						{ templateTitle }
