@@ -13,14 +13,20 @@ import DeleteTemplate from './delete-template';
 import EditTemplateTitle from './edit-template-title';
 
 function TemplateTitle() {
-	const { template, isEditing } = useSelect( ( select ) => {
+	const { template, isEditing, title } = useSelect( ( select ) => {
 		const { isEditingTemplate, getEditedPostTemplate } = select(
 			editPostStore
 		);
+		const {
+			getEditedPostAttribute,
+		} = select( 'core/editor' );
+
 		const _isEditing = isEditingTemplate();
+
 		return {
 			template: _isEditing ? getEditedPostTemplate() : null,
 			isEditing: _isEditing,
+			title: getEditedPostAttribute( 'title' ),
 		};
 	}, [] );
 
@@ -43,7 +49,7 @@ function TemplateTitle() {
 			renderToggle={ ( { onToggle } ) => (
 				<>
 					<div className="edit-post-template-title">
-						{ __( 'About' ) }
+						{ title }
 					</div>
 					<Button
 						isSmall
