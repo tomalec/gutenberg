@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { Button, Dropdown } from '@wordpress/components';
+import { Dropdown, ToolbarItem, Button } from '@wordpress/components';
 import { chevronDown } from '@wordpress/icons';
 
 /**
@@ -45,45 +45,52 @@ function TemplateTitle() {
 	}
 
 	return (
-		<Dropdown
-			position="bottom center"
-			className="edit-post-template-top-area"
-			contentClassName="edit-post-template-top-area__popover"
-			renderToggle={ ( { onToggle } ) => (
-				<>
-					<Button
-						className="edit-post-template-post-title"
-						isLink
-						showTooltip
-						label={ __( 'Edit ' ) + title }
-						aria-label={ __( 'Edit ' ) + title }
-						onClick={ () => {
-							clearSelectedBlock();
-							setIsEditingTemplate( false );
-						} }
-					>
-						{ title }
-					</Button>
-					<Button
-						className="edit-post-template-title"
-						isLink
-						icon={ chevronDown }
-						showTooltip
-						onClick={ onToggle }
-						label={ __( 'Template Options' ) }
-						aria-label={ __( 'Template Options' ) }
-					>
-						{ templateTitle }
-					</Button>
-				</>
-			) }
-			renderContent={ () => (
-				<>
-					<EditTemplateTitle />
-					<DeleteTemplate />
-				</>
-			) }
-		/>
+		<ToolbarItem>
+			{ ( toolbarItemHTMLProps ) => {
+				return (
+					<Dropdown
+						className="edit-post-template-top-area"
+						position="bottom center"
+						contentClassName="edit-post-template-top-area__popover"
+						renderToggle={ ( { onToggle } ) => (
+							<>
+								<Button
+									className="edit-post-template-post-title"
+									isLink
+									showTooltip
+									label={ __( 'Edit ' ) + title }
+									aria-label={ __( 'Edit ' ) + title }
+									onClick={ () => {
+										clearSelectedBlock();
+										setIsEditingTemplate( false );
+									} }
+								>
+									{ title }
+								</Button>
+								<Button
+									{ ...toolbarItemHTMLProps }
+									className="edit-post-template-title"
+									isLink
+									icon={ chevronDown }
+									showTooltip
+									onClick={ onToggle }
+									label={ __( 'Template Options' ) }
+									aria-label={ __( 'Template Options' ) }
+								>
+									{ templateTitle }
+								</Button>
+							</>
+						) }
+						renderContent={ () => (
+							<>
+								<EditTemplateTitle />
+								<DeleteTemplate />
+							</>
+						) }
+					/>
+				);
+			} }
+		</ToolbarItem>
 	);
 }
 
