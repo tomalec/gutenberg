@@ -13,6 +13,8 @@ import {
 	insertBlock,
 	openGlobalBlockInserter,
 	closeGlobalBlockInserter,
+	trashAllPosts,
+	activateTheme,
 } from '@wordpress/e2e-test-utils';
 
 function readFile( filePath ) {
@@ -97,6 +99,18 @@ function getHoverEventDurations( trace ) {
 jest.setTimeout( 1000000 );
 
 describe( 'Post Editor Performance', () => {
+	beforeAll( async () => {
+		await activateTheme( 'tt1-blocks' );
+		await trashAllPosts( 'wp_template' );
+		await trashAllPosts( 'wp_template', 'auto-draft' );
+		await trashAllPosts( 'wp_template_part' );
+	} );
+	afterAll( async () => {
+		await trashAllPosts( 'wp_template' );
+		await trashAllPosts( 'wp_template_part' );
+		await activateTheme( 'twentytwentyone' );
+	} );
+
 	it( 'Loading, typing and selecting blocks', async () => {
 		const results = {
 			load: [],
