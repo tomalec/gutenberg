@@ -252,6 +252,14 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 					'type'        => 'integer',
 					'context'     => array( 'view', 'embed' ),
 				),
+
+				'block_types' => array(
+					'description' => __( 'A list of block types this pattern supports for transforms.', 'gutenberg' ),
+					'type'        => 'array',
+					'uniqueItems' => true,
+					'items'       => array( 'type' => 'string' ),
+					'context'     => array( 'view', 'embed' ),
+				),
 			),
 		);
 
